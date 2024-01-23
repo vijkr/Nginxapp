@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      imagePullSecrets:
+          - name: imagepull
+      containers:
+      - name: nginx-app
+        image: {{ .Values.image }}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
